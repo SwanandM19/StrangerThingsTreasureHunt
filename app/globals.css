@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 :root {
   --background: #ffffff;
@@ -23,4 +23,117 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --st-red: #ff0000;
+  --st-dark-red: #8b0000;
+  --st-black: #0a0a0a;
+  --st-grey: #1a1a1a;
+  --st-light-red: #ff4444;
+}
+
+body {
+  background-color: var(--st-black);
+  color: white;
+  min-height: 100vh;
+}
+
+/* Stranger Things Glow Effect */
+.glow-text {
+  text-shadow: 0 0 10px var(--st-red),
+               0 0 20px var(--st-red),
+               0 0 30px var(--st-red);
+  animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+  75% { opacity: 0.9; }
+}
+
+.upside-down-bg {
+  background: linear-gradient(180deg, #0a0a0a 0%, #1a0000 100%);
+}
+
+/* Button Styles */
+.btn-primary {
+  background-color: rgb(220 38 38);
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+.btn-primary:hover {
+  background-color: rgb(185 28 28);
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: rgb(55 65 81);
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: rgb(75 85 99);
+}
+
+/* Input Styles */
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: rgb(31 41 55);
+  border: 2px solid rgb(55 65 81);
+  border-radius: 0.5rem;
+  color: white;
+  transition: all 0.3s;
+}
+
+.input-field:focus {
+  border-color: rgb(220 38 38);
+  outline: none;
+}
+
+.input-field.uppercase {
+  text-transform: uppercase;
+}
+
+/* Card Styles */
+.card {
+  background-color: rgb(17 24 39);
+  border: 2px solid rgba(127, 29, 29, 0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+  animation: glitch-animation 2s infinite;
+}
+
+@keyframes glitch-animation {
+  0%, 90%, 100% { transform: translate(0); }
+  92% { transform: translate(-2px, 2px); }
+  94% { transform: translate(2px, -2px); }
+  96% { transform: translate(-2px, -2px); }
+  98% { transform: translate(2px, 2px); }
 }
