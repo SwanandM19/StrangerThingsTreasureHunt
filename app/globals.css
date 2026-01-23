@@ -72,22 +72,37 @@
   -webkit-backdrop-filter: blur(12px);
   border: 2px solid rgba(185, 28, 28, 0.45);
   border-radius: 1rem;
-  padding: 1.25rem 1.5rem;
+  padding: 1.25rem 1.25rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(185, 28, 28, 0.15);
   width: 100%;
-  max-width: 28rem;
+  max-width: min(100%, 20rem);
+  min-width: 0;
+}
+
+@media (min-width: 375px) {
+  .clue-panel {
+    padding: 1.5rem 1.5rem;
+    max-width: min(100%, 22rem);
+  }
 }
 
 @media (min-width: 640px) {
   .clue-panel {
-    padding: 1.5rem 2rem;
+    padding: 1.75rem 2rem;
+    max-width: 28rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .clue-panel {
+    padding: 2rem 2.25rem;
     max-width: 32rem;
   }
 }
 
 @media (min-width: 1024px) {
   .clue-panel {
-    padding: 2rem 2.5rem;
+    padding: 2.25rem 2.5rem;
     max-width: 36rem;
   }
 }
@@ -96,6 +111,33 @@
 .clue-panel input,
 .clue-panel select {
   width: 100%;
+  min-height: 2.75rem;
+}
+
+.clue-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.clue-form-group + .clue-form-group {
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .clue-form-group + .clue-form-group {
+    margin-top: 1.5rem;
+  }
+}
+
+.clue-form-actions {
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .clue-form-actions {
+    margin-top: 1.75rem;
+  }
 }
 
 /* Stranger Things Glow Effect */
