@@ -8,12 +8,94 @@
   --st-black: #0a0a0a;
   --st-grey: #1a1a1a;
   --st-light-red: #ff4444;
+  --st-input-bg: rgba(0, 0, 0, 0.6);
+  --st-input-border: rgba(185, 28, 28, 0.6);
+  --st-input-focus: rgba(220, 38, 38, 0.9);
 }
 
-/* Remove the body background - let pages control it */
-body {
-  color: white;
-  min-height: 100vh;
+/* Ensure form elements respect theme – native controls often ignore utilities */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    color: white;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Force dark, themed styling on form elements when used in app */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    background-color: var(--st-input-bg) !important;
+    color: #fff !important;
+    border: 2px solid var(--st-input-border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font: inherit;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--st-input-focus);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.25);
+  }
+
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1.25rem;
+    padding-right: 2.5rem;
+  }
+
+  option {
+    background: #1a0a0a;
+    color: #fff;
+  }
+}
+
+/* Clue / form panels – readable surface on top of background images */
+.clue-panel {
+  background: linear-gradient(145deg, rgba(10, 0, 0, 0.88) 0%, rgba(26, 0, 0, 0.92) 100%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 2px solid rgba(185, 28, 28, 0.45);
+  border-radius: 1rem;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(185, 28, 28, 0.15);
+  width: 100%;
+  max-width: 28rem;
+}
+
+@media (min-width: 640px) {
+  .clue-panel {
+    padding: 1.5rem 2rem;
+    max-width: 32rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .clue-panel {
+    padding: 2rem 2.5rem;
+    max-width: 36rem;
+  }
+}
+
+.clue-panel .input-field,
+.clue-panel input,
+.clue-panel select {
+  width: 100%;
 }
 
 /* Stranger Things Glow Effect */
@@ -32,6 +114,22 @@ body {
 
 .upside-down-bg {
   background: linear-gradient(180deg, #0a0a0a 0%, #1a0000 100%);
+}
+
+/* Full-viewport background – use on a child of the page wrapper */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .page-bg {
+    background-attachment: scroll;
+  }
 }
 
 /* Button Styles */

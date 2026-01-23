@@ -449,86 +449,84 @@ export default function ClueTemplate({ clueData }) {
   };
 
   return (
-    <div 
-      className="min-h-screen w-full bg-cover bg-center bg-no-repeat flex items-center justify-center p-6"
-      style={{ 
-        backgroundImage: "url('/hint1.png')",
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed'
-      }}
-    >
-      <div className="w-full max-w-2xl text-center space-y-8">
-        
-        {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-bold text-red-600 glow-text">
-          {clueData.title}
-        </h1>
+    <div className="min-h-screen w-full relative flex flex-col">
+      {/* Background – fixed so it doesn’t move on scroll; works on mobile */}
+      <div
+        className="page-bg"
+        style={{ backgroundImage: "url('/hint1.png')" }}
+        aria-hidden
+      />
 
-        {/* Fragment */}
-        <p className="text-red-500 text-2xl font-bold">
-          Fragment: {clueData.fragmentAwarded}
-        </p>
+      {/* Scrollable, centered content */}
+      <div className="flex-1 min-h-screen flex items-center justify-center px-4 py-6 sm:px-6 sm:py-8 md:py-10 overflow-y-auto">
+        <div className="w-full max-w-xl mx-auto flex flex-col items-center justify-center">
+          {/* Title */}
+          <div className="text-center mb-4 sm:mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-red-500 glow-text">
+              {clueData.title}
+            </h1>
+            <p className="text-red-400/90 text-base sm:text-lg md:text-xl font-semibold mt-1 sm:mt-2">
+              Fragment: {clueData.fragmentAwarded}
+            </p>
+          </div>
 
-        {/* Encrypted Message */}
-        <div className="py-8">
-          <h3 className="text-red-400 font-bold text-2xl mb-6">🔐 Encrypted Message</h3>
-          <p className="font-mono text-3xl md:text-4xl text-white font-bold drop-shadow-[0_0_10px_rgba(0,0,0,0.8)]">
-            {clueData.encodedText}
+          {/* Centered clue panel (title + form block) */}
+          <div className="clue-panel text-center space-y-5 sm:space-y-6 mx-auto">
+            <div>
+              <h3 className="text-red-400 font-bold text-lg sm:text-xl mb-3 sm:mb-4">🔐 Encrypted Message</h3>
+              <p className="font-mono text-xl sm:text-2xl md:text-3xl text-white font-bold break-all" style={{ textShadow: '0 2px 12px rgba(0,0,0,0.8)' }}>
+                {clueData.encodedText}
+              </p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 text-left">
+              <div>
+                <label className="block text-red-400 font-bold mb-1.5 sm:mb-2 text-sm sm:text-base">
+                  Select Your Team
+                </label>
+                <select
+                  value={selectedTeam}
+                  onChange={(e) => setSelectedTeam(e.target.value)}
+                  className="input-field w-full text-base sm:text-lg"
+                  required
+                >
+                  <option value="">-- Choose Team --</option>
+                  {teams.map((team) => (
+                    <option key={team._id} value={team.name}>
+                      {team.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-red-400 font-bold mb-1.5 sm:mb-2 text-sm sm:text-base">
+                  Enter Flag (UPPERCASE)
+                </label>
+                <input
+                  type="text"
+                  value={flag}
+                  onChange={(e) => setFlag(e.target.value)}
+                  placeholder="TYPE YOUR ANSWER..."
+                  className="input-field uppercase w-full text-base sm:text-lg"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="btn-primary w-full py-3 sm:py-4 text-base sm:text-lg md:text-xl rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? '⏳ SUBMITTING...' : '🚀 SUBMIT FLAG'}
+              </button>
+            </form>
+          </div>
+
+          <p className="text-gray-400 text-xs sm:text-sm mt-4 sm:mt-6 text-center max-w-md" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
+            ⚠️ Make sure your flag is correct before submitting
           </p>
         </div>
-
-        {/* Submission Form */}
-        <form onSubmit={handleSubmit} className="space-y-6 mt-12">
-          
-          {/* Team Selection */}
-          <div>
-            <label className="block text-red-400 font-bold mb-3 text-xl drop-shadow-lg">
-              Select Your Team
-            </label>
-            <select
-              value={selectedTeam}
-              onChange={(e) => setSelectedTeam(e.target.value)}
-              className="w-full p-4 bg-black/60 rounded-lg text-white text-lg font-semibold focus:outline-none focus:ring-2 focus:ring-red-500"
-              required
-            >
-              <option value="">-- Choose Team --</option>
-              {teams.map((team) => (
-                <option key={team._id} value={team.name}>
-                  {team.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Flag Input */}
-          <div>
-            <label className="block text-red-400 font-bold mb-3 text-xl drop-shadow-lg">
-              Enter Flag (UPPERCASE)
-            </label>
-            <input
-              type="text"
-              value={flag}
-              onChange={(e) => setFlag(e.target.value)}
-              placeholder="TYPE YOUR ANSWER..."
-              className="w-full p-4 bg-black/60 rounded-lg text-white text-xl font-bold uppercase focus:outline-none focus:ring-2 focus:ring-red-500 placeholder:text-gray-400"
-              required
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-5 bg-red-600 hover:bg-red-700 text-white font-bold text-2xl rounded-xl shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? '⏳ SUBMITTING...' : '🚀 SUBMIT FLAG'}
-          </button>
-        </form>
-
-        {/* Warning */}
-        <p className="text-gray-300 text-sm mt-6 drop-shadow-lg">
-          ⚠️ Make sure your flag is correct before submitting
-        </p>
       </div>
     </div>
   );
